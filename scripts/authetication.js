@@ -9,6 +9,8 @@
 function registerStudent(e) {
   e.preventDefault();
 
+  document.getElementById("submitSignUp").innerText = "Loading...";
+
   const formData = new FormData(e.target);
   const data = {};
   for (let [key, value] of formData.entries()) {
@@ -27,6 +29,7 @@ function registerStudent(e) {
   })
     .then((response) => response.json())
     .then((res) => {
+      document.getElementById("submitSignUp").innerText = "Sign Up";
       console.log("Success:", res);
 
       if (res.status === "error") {
@@ -41,6 +44,7 @@ function registerStudent(e) {
       }
     })
     .catch((error) => {
+      document.getElementById("submitSignUp").innerText = "Sign Up";
       console.error("Error:", error);
       document.getElementById("signUpMessage").innerHTML = error.message;
       document.getElementById("signUpMessage").style.display = "block";
@@ -49,6 +53,8 @@ function registerStudent(e) {
 
 function studentLogin(e) {
   e.preventDefault();
+
+  document.getElementById("submitSignIn").innerText = "Loading...";
 
   const formData = new FormData(e.target);
   const data = {};
@@ -68,6 +74,7 @@ function studentLogin(e) {
   })
     .then((response) => response.json())
     .then((res) => {
+      document.getElementById("submitSignIn").innerText = "Sign In";
       if (res.status === "error") {
         document.getElementById("signInMessage").innerHTML = res.message;
         document.getElementById("signInMessage").style.display = "block";
@@ -81,6 +88,7 @@ function studentLogin(e) {
       }
     })
     .catch((error) => {
+      document.getElementById("submitSignIn").innerText = "Sign In";
       console.error("Error:", error);
       document.getElementById("signInMessage").innerHTML = error.message;
       document.getElementById("signInMessage").style.display = "block";
