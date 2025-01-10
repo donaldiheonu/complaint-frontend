@@ -81,10 +81,14 @@ function studentLogin(e) {
       } else {
         console.log("Success:", res.data);
         saveAsCookie(res.data.token);
-        document.getElementById("signInMessage").innerHTML = res.message;
+        document.getElementById("signInMessage").innerHTML =
+          res.message + `, Redirecting...`;
         document.getElementById("signInMessage").style.display = "block";
         document.getElementById("signInMessage").style.backgroundColor =
           "green";
+        setTimeout(() => {
+          window.location.href = "/dashboard";
+        }, 1000);
       }
     })
     .catch((error) => {

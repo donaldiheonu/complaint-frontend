@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register Complaint</title>
+    <link rel="stylesheet" href="../style/style2.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    />
+    <script src="../scripts/api.js"></script>
+    <script src="../scripts/auth.js"></script>
+  </head>
+  <body>
+    <div class="container">
+      <div class="sidebar">
+        <div class="profile">
+          <img src="https://via.placeholder.com/80" alt="User Profile" />
+          <p id="userFullName">Loading...</p>
+          <!-- Placeholder for user's full name -->
+        </div>
+        <nav>
+          <ul>
+            <li><i class="fas fa-home"></i><a href="../">Home</a></li>
+            <!-- <li><i class="fas fa-cog"></i> Account Setting</li> -->
+            <li><i class="fas fa-comment-alt"></i> Complaint</li>
+            <li>
+              <i class="fas fa-history"></i>
+              <a href="./history.html">History</a>
+            </li>
+            <li>
+              <i class="fas fa-history"></i>
+              <a style="cursor: pointer" onclick="logout()">Logout</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
+      <div class="main-content">
+        <h2>Register Complaint</h2>
+        <form onsubmit="submitComplaints(event)">
+          <div id="messageBox" class="messageDiv" style="display: none"></div>
+          <div class="form-group">
+            <label for="category">Category</label>
+            <select id="category" name="complaintType" required>
+              <option value="" disabled selected>Select One</option>
+              <option value="Academics">Academics</option>
+              <option value="Administrative">Administrative</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label for="type">Faculty</label>
+            <input type="text" name="faculty" required />
+          </div>
+
+          <div class="form-group">
+            <label for="recipient">Title</label>
+            <input
+              type="text"
+              id="recipient"
+              name="title"
+              placeholder="Enter recipient"
+              required
+            />
+          </div>
+
+          <div class="form-group">
+            <label for="details">Complaint Details (max 2000 words)</label>
+            <textarea
+              id="details"
+              rows="5"
+              placeholder="Enter complaint details"
+              name="description"
+              required
+            ></textarea>
+          </div>
+
+          <!-- <div class="form-group">
+            <label for="file">Complaint Related Doc (if any)</label>
+            <input type="file" id="file" accept=".pdf,.jpg,.jpeg,.docx" />
+          </div> -->
+
+          <div class="button-group">
+            <button type="submit" id="submitComplaintBtn" class="btn-submit">
+              Submit
+            </button>
+            <button id="logout" type="reset" class="btn-logout">Reset</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <script src="../scripts/complaint.js"></script>
+  </body>
+</html>
