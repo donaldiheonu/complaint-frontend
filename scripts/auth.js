@@ -38,13 +38,13 @@ function verifyToken(token) {
     .then((res) => {
       console.log("Success:", res);
       if (res.status === "error") {
-        window.location.href = "/login.html";
+        window.location.href = "/authenticate.html";
       }
       console.log(res);
     })
     .catch((error) => {
       console.error("Error:", error);
-      window.location.href = "/login.html";
+      window.location.href = "/authenticate.html";
     });
 }
 

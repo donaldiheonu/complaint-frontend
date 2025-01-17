@@ -50,11 +50,100 @@
       }
 
       .view-details:hover {
-        text-decoration: underline;
+        color: #094b92;
+        font-size: larger;
+        transition: 0.2s;
+        font-weight: 700;
+      }
+
+      /* Overlay Effect */
+      .popup-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+        z-index: 999;
+        display: none; /* Hidden by default */
+      }
+
+      /* Popup Container */
+      .popup {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 400px; /* Increased width */
+        background-color: white;
+        border: 1px solid #ccc;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+        z-index: 1000;
+        display: none; /* Hidden by default */
+        padding: 10px;
+      }
+
+      .popup-content {
+        padding: 20px;
+        text-align: center;
+        position: relative;
+      }
+
+      /* Close Button */
+      .close-button {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        font-size: 20px;
+        color: #aaa;
+        cursor: pointer;
+      }
+
+      .close-button:hover {
+        color: #000;
+      }
+
+      /* Button Styles */
+      button {
+        padding: 10px 20px;
+        font-size: 16px;
+        background-color: #007bff;
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+
+      button:hover {
+        background-color: #0056b3;
+      }
+
+      /* Hidden State */
+      .hidden {
+        display: none;
+      }
+
+      /* Display popup and overlay */
+      .popup-overlay.active,
+      .popup.active {
+        display: block;
       }
     </style>
   </head>
   <body>
+    <!-- Overlay -->
+    <div id="popupOverlay" class="popup-overlay"></div>
+
+    <!-- Popup -->
+    <div id="popup" class="popup">
+      <div class="popup-content">
+        <span class="close-button" id="closePopup">&times;</span>
+        <span id="detailsDiv"></span>
+      </div>
+    </div>
+
+    <!-- Main container -->
     <div class="container">
       <div class="sidebar">
         <div class="profile">
@@ -103,5 +192,7 @@
         </table>
       </div>
     </div>
+
+    <script src="../scripts/popup.js"></script>
   </body>
 </html>
