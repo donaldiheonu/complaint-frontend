@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="../styles/output.css" />
+    <style>
+      /* Transition for sidebar toggling */
+      .transition-transform {
+        transition: transform 0.3s ease-in-out;
+      }
+    </style>
+    <script src="../scripts/api.js"></script>
+    <script src="../scripts/admin/admin.js"></script>
+    <script>
+      async function get() {
+        const res = await getAllUsers();
+        const users = res.users;
+
+        users.forEach((user) => {
+          document.getElementById("usersField").innerHTML += `
+          <tr class="hover:bg-gray-100">
+                  <td class="px-4 py-2">${user.fullName}</td>
+                  <td class="px-4 py-2">${user.matricNo}</td>
+                  <td class="px-4 py-2">${user.email}</td>
+                  <td class="px-4 py-2 text-green-600">Active</td>
+                  <td class="px-4 py-2">
+                    <button class="text-blue-600 hover:underline">Edit</button>
+                    <button class="ml-2 text-red-600 hover:underline">
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+          `;
+        });
+      }
+      get();
+    </script>
+  </head>
+  <body class="bg-gray-100 min-h-screen flex flex-col">
+    <div class="flex flex-grow">
+      <!-- Sidebar -->
+      <aside
+        id="sidebar"
+        class="bg-cyan-600 text-white w-64 fixed sm:relative z-20 h-screen transform -translate-x-full sm:translate-x-0 transition-transform overflow-auto"
+      >
+        <div class="p-4 text-lg font-bold text-center border-b border-cyan-500">
+          Admin Dashboard
+        </div>
+        <nav class="mt-4 space-y-2">
+          <a
+            href="./dashboard.html"
+            class="block px-4 py-2 text-sm hover:bg-cyan-700"
+            >Dashboard</a
+          >
+          <a
+            href="./users.html"
+            class="block px-4 py-2 text-sm hover:bg-cyan-700"
+            >Users</a
+          >
+          <a href="#" class="block px-4 py-2 text-sm hover:bg-cyan-700"
+            >System Logs</a
+          >
+          <a href="#" class="block px-4 py-2 text-sm hover:bg-cyan-700"
+            >Settings</a
+          >
+          <a href="#" class="block px-4 py-2 text-sm hover:bg-cyan-700"
+            >Logout</a
+          >
+        </nav>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="flex-1">
+        <!-- Top Navbar -->
+        <header class="bg-white shadow">
+          <div class="flex items-center justify-between p-4">
+            <div class="text-lg font-bold text-gray-700">Users Management</div>
+            <!-- Hamburger Menu Button -->
+            <button
+              id="menu-toggle"
+              class="sm:hidden text-blue-600 hover:text-blue-800 focus:outline-none"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h16m-7 6h7"
+                />
+              </svg>
+            </button>
+          </div>
+        </header>
+
+        <!-- Users Content -->
+        <div class="p-6 space-y-6">
+          <!-- Page Header -->
+          <div class="flex items-center justify-between">
+            <h2 class="text-xl font-bold text-gray-800">Users</h2>
+            <button
+              class="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none"
+            >
+              Add User
+            </button>
+          </div>
+
+          <!-- Users Table -->
+          <div class="bg-white shadow rounded-lg overflow-x-auto">
+            <table class="min-w-full text-sm text-gray-700">
+              <thead class="bg-gray-50">
+                <tr>
+                  <th class="px-4 py-2 text-left">Full Name</th>
+                  <th class="px-4 py-2 text-left">Matric No</th>
+                  <th class="px-4 py-2 text-left">Email</th>
+                  <th class="px-4 py-2 text-left">Status</th>
+                  <th class="px-4 py-2 text-left">Actions</th>
+                </tr>
+              </thead>
+              <tbody id="usersField"></tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+      const menuToggle = document.getElementById("menu-toggle");
+      const sidebar = document.getElementById("sidebar");
+
+      menuToggle.addEventListener("click", () => {
+        sidebar.classList.toggle("-translate-x-full");
+      });
+    </script>
+  </body>
+</html>
