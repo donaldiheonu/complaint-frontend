@@ -13,12 +13,52 @@
     </style>
     <script src="../scripts/api.js"></script>
     <script src="../scripts/admin/admin.js"></script>
+    <script src="../scripts/complaint.js"></script>
     <script>
       async function get() {
         const res = await getAllUsers();
         document.getElementById("usersCount").innerText = res?.count;
       }
+
+      async function getAllComplaints() {
+        const response = await AllComplaint();
+        const receivedData = response.data;
+        document.getElementById("totalComplaint").innerText =
+          receivedData.count;
+        document.getElementById("pendingComplaints").innerText =
+          receivedData.pendingComplaints;
+        document.getElementById("resolvedComplaints").innerText =
+          receivedData.resolvedComplaints;
+
+        console.log(response);
+        if (
+          response.status === "success" &&
+          receivedData.complaints.length !== 0
+        ) {
+          const complaintsTable = document.getElementById("complaintsTable");
+          complaintsTable.innerHTML = "";
+          receivedData.complaints.forEach((complaint) => {
+            complaintsTable.innerHTML += `
+            <tr class="hover:bg-gray-100">
+                  <td class="px-4 py-2">${complaint.complaint_type}</td>
+                  <td class="px-4 py-2">${complaint.faculty}</td>
+                  <td class="px-4 py-2">${complaint.complaint_title}</td>
+                  <td class="px-4 py-2"><span class="text-white rounded-md p-2 font-bold  ${
+                    complaint.complaint_status === "Pending"
+                      ? " bg-red-500"
+                      : "bg-green-500"
+                  }">${complaint.complaint_status}</span></td>
+                  <td class="px-4 py-2">${complaint.updatedAt}</td>
+                  <td class="px-4 py-2" onclick="viewComplaint(${
+                    complaint.uuid
+                  })">View</td>
+                </tr>
+            `;
+          });
+        }
+      }
       get();
+      getAllComplaints();
     </script>
   </head>
   <body class="bg-gray-100 min-h-screen flex flex-col">
@@ -98,19 +138,34 @@
               <div class="text-sm font-medium text-gray-500">
                 Total Complaints
               </div>
-              <div class="mt-2 text-2xl font-bold text-gray-800">56</div>
+              <div
+                class="mt-2 text-2xl font-bold text-gray-800"
+                id="totalComplaint"
+              >
+                56
+              </div>
             </div>
             <div class="p-4 bg-white shadow rounded-lg">
               <div class="text-sm font-medium text-gray-500">
                 Resolved Complaints
               </div>
-              <div class="mt-2 text-2xl font-bold text-gray-800">245</div>
+              <div
+                class="mt-2 text-2xl font-bold text-gray-800"
+                id="resolvedComplaints"
+              >
+                245
+              </div>
             </div>
             <div class="p-4 bg-white shadow rounded-lg">
               <div class="text-sm font-medium text-gray-500">
                 Pending Complaints
               </div>
-              <div class="mt-2 text-2xl font-bold text-gray-800">8</div>
+              <div
+                class="mt-2 text-2xl font-bold text-gray-800"
+                id="pendingComplaints"
+              >
+                8
+              </div>
             </div>
           </div>
 
@@ -119,13 +174,15 @@
             <table class="min-w-full text-sm text-gray-700">
               <thead class="bg-gray-50">
                 <tr>
-                  <th class="px-4 py-2 text-left">Name</th>
-                  <th class="px-4 py-2 text-left">Email</th>
-                  <th class="px-4 py-2 text-left">Role</th>
+                  <th class="px-4 py-2 text-left">Category</th>
+                  <th class="px-4 py-2 text-left">Faculty</th>
+                  <th class="px-4 py-2 text-left">Title</th>
                   <th class="px-4 py-2 text-left">Status</th>
+                  <th class="px-4 py-2 text-left">Date</th>
+                  <th class="px-4 py-2 text-left">Action</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody id="complaintsTable">
                 <tr class="hover:bg-gray-100">
                   <td class="px-4 py-2">John Doe</td>
                   <td class="px-4 py-2">john.doe@example.com</td>

@@ -43,51 +43,85 @@ function submitComplaints(e) {
     });
 }
 
-function complaintHistory() {
-  // Get complaint history from endpoint
-  fetch(`${BASE_URL}/api/complaints/user`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-  })
-    .then((response) => response.json())
-    .then((res) => {
-      if (res.status === "error") {
-        document.getElementById("historyMessageBox").innerHTML = res.message;
-        document.getElementById("historyMessageBox").style.display = "block";
-        return;
-      }
+// function complaintHistory() {
+//   // Get complaint history from endpoint
+//   fetch(`${BASE_URL}/api/complaints/user`, {
+//     method: "GET",
+//     headers: {
+//       "Content-Type": "application/json",
+//       Authorization: `Bearer ${token}`,
+//     },
+//   })
+//     .then((response) => response.json())
+//     .then((res) => {
+//       if (res.status === "error") {
+//         document.getElementById("historyMessageBox").innerHTML = res.message;
+//         document.getElementById("historyMessageBox").style.display = "block";
+//         return;
+//       }
 
-      console.log("Success:", res.data);
+//       console.log("Success:", res.data);
 
-      const complaintsTable = document.getElementById("complaintTable");
-      let count = 1; // Start count from 1
-      complaintsTable.innerHTML = ""; // Clear existing rows
+//       const complaintsTable = document.getElementById("complaintTable");
+//       let count = 1; // Start count from 1
+//       complaintsTable.innerHTML = ""; // Clear existing rows
 
-      res.data.forEach((complaint) => {
-        const row = `
-            <tr>
-              <td>${count++}</td>
-              <td>${complaint.complaint_type}</td>
-              <td>${complaint.faculty}</td>
-              <td>${complaint.complaint_title}</td>
-              <td>Pending</td>
-              <td>${new Date(complaint.createdAt).toLocaleString()}</td>
-              <td><a onclick="viewComplaint('${
-                complaint.uuid
-              }')" id="togglePopup" class="view-details" style="cursor:pointer;text-decoration:none;">View</a></td>
-            </tr>
-          `;
-        complaintsTable.innerHTML += row; // Append each row
-      });
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-      document.getElementById("historyMessageBox").innerHTML = error.message;
-      document.getElementById("historyMessageBox").style.display = "block";
+//   res.data.forEach((complaint) => {
+//     const row = `
+//         <tr>
+//           <td>${count++}</td>
+//           <td>${complaint.complaint_type}</td>
+//           <td>${complaint.faculty}</td>
+//           <td>${complaint.complaint_title}</td>
+//           <td>${complaint.complaint_status}</td>
+//           <td>${new Date(complaint.createdAt).toLocaleString()}</td>
+//           <td><a onclick="viewComplaint('${
+//             complaint.uuid
+//           }')" id="togglePopup" class="view-details" style="cursor:pointer;text-decoration:none;">View</a></td>
+//         </tr>
+//       `;
+//     complaintsTable.innerHTML += row; // Append each row
+//   });
+//     })
+//     .catch((error) => {
+//       console.error("Error:", error);
+//       document.getElementById("historyMessageBox").innerHTML = error.message;
+//       document.getElementById("historyMessageBox").style.display = "block";
+//     });
+// }
+
+async function complaintHistory() {
+  try {
+    const response = await fetch(`${BASE_URL}/api/complaints/user`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
     });
+
+    const res = await response.json();
+
+    // If response status is error, return early
+    if (res.status === "error") {
+      return {
+        status: "error",
+        message: res.message,
+      };
+    }
+
+    // Return the success response with data
+    return {
+      status: "success",
+      data: res.data,
+    };
+  } catch (error) {
+    console.error("Error:", error);
+    return {
+      status: "error",
+      message: error.message,
+    };
+  }
 }
 
 function viewComplaint(uuid) {
@@ -117,4 +151,38 @@ function viewComplaint(uuid) {
     .catch((error) => {
       console.error("Error:", error);
     });
+}
+
+async function AllComplaint() {
+  try {
+    const response = await fetch(`${BASE_URL}/api/admin/get-complaints`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+        // Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const res = await response.json();
+
+    // If response status is error, return early
+    if (res.status === "error") {
+      return {
+        status: "error",
+        message: res.message,
+      };
+    }
+
+    // Return the success response with data
+    return {
+      status: "success",
+      data: res.data,
+    };
+  } catch (error) {
+    console.error("Error:", error);
+    return {
+      status: "error",
+      message: error.message,
+    };
+  }
 }

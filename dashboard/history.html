@@ -13,7 +13,38 @@
     <script src="../scripts/auth.js"></script>
     <script src="../scripts/complaint.js"></script>
     <script>
-      complaintHistory();
+      async function getHistory() {
+        const response = await complaintHistory();
+
+        const complaintsTable = document.getElementById("complaintTable");
+
+        if (response.status === "success") {
+          const receivedData = response.data; //array
+
+          let count = 1; // Start count from 1
+          complaintsTable.innerHTML = ""; // Clear existing rows
+
+          receivedData.forEach((complaint) => {
+            const row = `
+            <tr>
+              <td>${count++}</td>
+              <td>${complaint.complaint_type}</td>
+              <td>${complaint.faculty}</td>
+              <td>${complaint.complaint_title}</td>
+              <td>${complaint.complaint_status}</td>
+              <td>${new Date(complaint.createdAt).toLocaleString()}</td>
+              <td><a onclick="viewComplaint('${
+                complaint.uuid
+              }')" id="togglePopup" class="view-details" style="cursor:pointer;text-decoration:none;">View</a></td>
+            </tr>
+          `;
+            complaintsTable.innerHTML += row; // Append each row
+          });
+        } else {
+          complaintsTable.innerText = "No complaint submitted!";
+        }
+      }
+      getHistory();
     </script>
     <style>
       /* Additional styling for the complaint history table */
