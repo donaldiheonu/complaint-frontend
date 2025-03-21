@@ -13,3 +13,20 @@ async function getAllUsers() {
     throw error;
   }
 }
+
+async function deleteUser(userId) {
+  try {
+    const response = await fetch(`${BASE_URL}/api/admin/user/${userId}`, {
+      method: "DELETE",
+    });
+
+    if (response.status === 204) {
+      return alert("User deleted successfully\n Please reload the page.");
+    } else {
+      throw new Error("Unable to delete user");
+    }
+  } catch (error) {
+    console.error(error.message);
+    throw error;
+  }
+}
