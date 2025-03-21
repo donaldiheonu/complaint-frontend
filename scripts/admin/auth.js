@@ -3,7 +3,7 @@ function authenticate() {
     // get token cookie and validate
 
     if (token == "" || token == undefined || token == null) {
-        window.location.href = "../../admin/";
+        window.location.href = "../admin";
     } else {
         verifyToken(token);
     }
