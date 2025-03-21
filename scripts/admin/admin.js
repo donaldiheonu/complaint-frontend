@@ -14,6 +14,7 @@ async function getAllUsers() {
   }
 }
 
+// function to delete user from database
 async function deleteUser(userId) {
   try {
     const response = await fetch(`${BASE_URL}/api/admin/user/${userId}`, {
