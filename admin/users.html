@@ -38,6 +38,7 @@
       }
       get();
     </script>
+    <script src="../scripts/admin/auth.js"></script>
   </head>
   <body class="bg-gray-100 min-h-screen flex flex-col">
     <div class="flex flex-grow">
@@ -66,7 +67,7 @@
           <a href="#" class="block px-4 py-2 text-sm hover:bg-cyan-700"
             >Settings</a
           >
-          <a href="#" class="block px-4 py-2 text-sm hover:bg-cyan-700"
+          <a onclick="logout()" class="block px-4 py-2 text-sm hover:bg-cyan-700 cursor-pointer"
             >Logout</a
           >
         </nav>

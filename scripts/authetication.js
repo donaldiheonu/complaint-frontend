@@ -111,3 +111,58 @@ function saveAsCookie(token) {
   const cookieString = `token=${token}; expires=${expirationTime.toUTCString()}; path=/`;
   document.cookie = cookieString;
 }
+
+
+function adminSaveAsCookie(token) {
+  const now = new Date();
+  const expirationTime = new Date(now.getTime() + 60 * 60 * 1000);
+  const cookieString = `adminToken=${token}; expires=${expirationTime.toUTCString()}; path=/`;
+  document.cookie = cookieString;
+}
+
+async function adminLogin(e) {
+  e.preventDefault();
+
+  document.getElementById("submitAdminLogin").innerText = "Processing...";
+
+  const formData = new FormData(e.target);
+  const data = {};
+  for (let [key, value] of formData.entries()) {
+    data[key] = value;
+  }
+
+  console.log("Data passed!:", data);
+
+  fetch(`${BASE_URL}/api/admin/login`, {
+    method: 'POST',
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  }).then((response) => response.json())
+    .then((res) => {
+      console.log(res)
+      document.getElementById("submitAdminLogin").innerText = "Sign In";
+
+      if (res.status === "error") {
+        document.getElementById("adminLoginMessageBox").innerText = res.message;
+        document.getElementById("adminLoginMessageBox").style.backgroundColor = "#d10808";
+        document.getElementById("adminLoginMessageBox").style.color = "#e6c0c0";
+        document.getElementById("adminLoginMessageBox").style.display = "block";
+      } else {
+        adminSaveAsCookie(res.data.token);
+        document.getElementById("adminLoginMessageBox").innerHTML =
+          res.message + `, Redirecting...`;
+        document.getElementById("adminLoginMessageBox").style.backgroundColor = "#1a791a";
+        document.getElementById("adminLoginMessageBox").style.color = "#ebf0eb";
+        document.getElementById("adminLoginMessageBox").style.display = "block";
+        setTimeout(() => {
+          window.location.href = "../../admin/users.html";
+        }, 1000);
+      }
+    })
+    .catch((error) => {
+      document.getElementById("submitAdminLogin").innerText = "Sign In";
+      console.error("Error:", error)
+    })
+}
