@@ -87,7 +87,7 @@ function studentLogin(e) {
         document.getElementById("signInMessage").style.backgroundColor =
           "green";
         setTimeout(() => {
-          window.location.href = "/dashboard";
+          window.location.href = "./dashboard";
         }, 1000);
       }
     })
