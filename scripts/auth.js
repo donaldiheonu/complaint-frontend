@@ -1,7 +1,7 @@
 var token = getCookie("token");
 function authenticate() {
   // get token cookie and validate
-  console.log("This is the authorization token:", token);
+  // console.log("This is the authorization token:", token);
 
   if (token == "" || token == undefined || token == null) {
     window.location.href = "../authenticate.html";
