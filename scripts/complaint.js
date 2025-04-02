@@ -1,3 +1,11 @@
+/**
+ * The above functions handle submitting complaints, fetching complaint history, viewing complaint
+ * details, fetching all complaints, and updating complaint status asynchronously.
+ * @param e - The `e` parameter in the `submitComplaints` function is typically an event object,
+ * commonly used in event handling functions in JavaScript. It represents the event that occurred, such
+ * as a form submission in this case. By calling `e.preventDefault()`, the default behavior of the
+ * event (in
+ */
 function submitComplaints(e) {
   e.preventDefault();
 
@@ -128,7 +136,7 @@ function viewComplaint(uuid) {
   openPopup();
 
   // store uuid in localstorage
-  localStorage.setItem('complaintUUID', uuid)
+  localStorage.setItem("complaintUUID", uuid);
 
   // Get complaint details from endpoint
   fetch(`${BASE_URL}/api/complaints/${uuid}`, {
@@ -146,10 +154,9 @@ function viewComplaint(uuid) {
       console.log(res);
       const complaintDetails = res.data;
       // render the resolve button conditionally
-      if (complaintDetails.complaint_status === 'Pending') {
-        document.getElementById('updateStatusBtn').style.display = 'block'
+      if (complaintDetails.complaint_status === "Pending") {
+        document.getElementById("updateStatusBtn").style.display = "block";
       }
-
 
       document.getElementById("detailsDiv").innerHTML = `
       <h2 id="detailsTitle">${complaintDetails.complaint_title}</h2>
@@ -196,35 +203,35 @@ async function AllComplaint() {
   }
 }
 
-
 async function updateComplaint() {
   // get complaintUUid from localstorage
 
-  const uuid = localStorage.getItem('complaintUUID')
+  const uuid = localStorage.getItem("complaintUUID");
 
   if (uuid !== null) {
     try {
-      const response = await fetch(`${BASE_URL}/api/admin/complaints/update/${uuid}`, {
-        method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-          status: "Resolved"
-        })
-      });
+      const response = await fetch(
+        `${BASE_URL}/api/admin/complaints/update/${uuid}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            status: "Resolved",
+          }),
+        }
+      );
 
-      const res = await response.json()
+      const res = await response.json();
 
       // remove UUID from local storage
-      localStorage.removeItem('complaintUUID')
-      alert(res.message + '\n Please Reload the page...')
-      return window.location = './dashboard.html'
-
+      localStorage.removeItem("complaintUUID");
+      alert(res.message + "\n Please Reload the page...");
+      return (window.location = "./dashboard.html");
     } catch (error) {
-      return console.error(error)
+      return console.error(error);
     }
   }
-  return console.log("Unable to get UUID")
-
+  return console.log("Unable to get UUID");
 }

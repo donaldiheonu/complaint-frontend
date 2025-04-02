@@ -1,3 +1,7 @@
+/**
+ * The JavaScript code provided includes functions to authenticate a user using a token stored in a
+ * cookie, verify the token with a server endpoint, and logout by clearing the token cookie.
+ */
 var token = getCookie("token");
 function authenticate() {
   // get token cookie and validate

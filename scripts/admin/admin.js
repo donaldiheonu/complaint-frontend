@@ -1,3 +1,10 @@
+/**
+ * The above functions use async/await to fetch all users and delete a user from a database, handling
+ * errors and displaying appropriate messages.
+ * @returns In the `getAllUsers` function, the fetched data is returned if the response status is
+ * "success". In the `deleteUser` function, an alert message is returned if the user is deleted
+ * successfully.
+ */
 async function getAllUsers() {
   try {
     const response = await fetch(`${BASE_URL}/api/admin/users`);
