@@ -55,8 +55,9 @@
         cursor: pointer;
       }
 
-       /* Display popup and overlay */
-       .popup-overlay.active, .popup.active {
+      /* Display popup and overlay */
+      .popup-overlay.active,
+      .popup.active {
         display: block;
       }
     </style>
@@ -98,7 +99,9 @@
                       : "bg-green-500"
                   }">${complaint.complaint_status}</span></td>
                   <td class="px-4 py-2">${complaint.updatedAt}</td>
-                  <td class="px-4 py-2" style="cursor: pointer;" onclick="viewComplaint('${complaint.uuid}')">View</td>
+                  <td class="px-4 py-2" style="cursor: pointer; " id="togglePopup" onclick="viewComplaint('${
+                    complaint.uuid
+                  }')">View</td>
                 </tr>
             `;
           });
@@ -110,20 +113,34 @@
     <script src="../scripts/admin/auth.js"></script>
   </head>
   <body class="bg-gray-100 min-h-screen flex flex-col">
+    <!-- Overlay -->
+    <div id="adminPopupOverlay" class="popup-overlay"></div>
 
-
-     <!-- Overlay -->
-     <div id="adminPopupOverlay" class="popup-overlay"></div>
-
-     <!-- Popup -->
-     <div id="adminPopup" class="popup">
-       <div class="popup-content">
-         <span class="close-button" id="closeAdminPopup">&times;</span>
-         <span id="detailsDiv"></span>
-         <p id="updateStatusBtn" onclick="updateComplaint()" style="padding: 3px;border:1px solid;border-radius: 7px;background-color: #428a42;color:#ededed;width: 50%; margin-top: 4px;margin: auto;cursor: pointer;display: none;">Resolve Complaint</p>
-       </div>
-     </div>
-
+    <!-- Popup -->
+    <div id="adminPopup" class="popup">
+      <div class="popup-content">
+        <span class="close-button" id="closeAdminPopup">&times;</span>
+        <span id="detailsDiv"></span>
+        <p
+          id="updateStatusBtn"
+          onclick="updateComplaint()"
+          style="
+            padding: 3px;
+            border: 1px solid;
+            border-radius: 7px;
+            background-color: #428a42;
+            color: #ededed;
+            width: 50%;
+            margin-top: 4px;
+            margin: auto;
+            cursor: pointer;
+            display: none;
+          "
+        >
+          Resolve Complaint
+        </p>
+      </div>
+    </div>
 
     <div class="flex flex-grow">
       <!-- Sidebar -->
@@ -151,7 +168,9 @@
           <a href="#" class="block px-4 py-2 text-sm hover:bg-cyan-700"
             >Settings</a
           >
-          <a onclick="logout()" class="block px-4 py-2 text-sm hover:bg-cyan-700"
+          <a
+            onclick="logout()"
+            class="block px-4 py-2 text-sm hover:bg-cyan-700"
             >Logout</a
           >
         </nav>
@@ -274,6 +293,6 @@
         sidebar.classList.toggle("-translate-x-full");
       });
     </script>
-<script src="../scripts/adminPopup.js"></script>
+    <script src="../scripts/adminPopup.js"></script>
   </body>
 </html>
