@@ -127,6 +127,9 @@ async function complaintHistory() {
 function viewComplaint(uuid) {
   openPopup();
 
+  // store uuid in localstorage
+  localStorage.setItem('complaintUUID', uuid)
+
   // Get complaint details from endpoint
   fetch(`${BASE_URL}/api/complaints/${uuid}`, {
     method: "GET",
@@ -138,10 +141,16 @@ function viewComplaint(uuid) {
     .then((response) => response.json())
     .then((res) => {
       if (res.status === "error") {
-        return alert("Ann error occured");
+        return alert("An error occured");
       }
       console.log(res);
       const complaintDetails = res.data;
+      // render the resolve button conditionally
+      if (complaintDetails.complaint_status === 'Pending') {
+        document.getElementById('updateStatusBtn').style.display = 'block'
+      }
+
+
       document.getElementById("detailsDiv").innerHTML = `
       <h2 id="detailsTitle">${complaintDetails.complaint_title}</h2>
           <h5 id="detailsCategory" style="margin-bottom:8px;">${complaintDetails.complaint_type}</h5>
@@ -185,4 +194,37 @@ async function AllComplaint() {
       message: error.message,
     };
   }
+}
+
+
+async function updateComplaint() {
+  // get complaintUUid from localstorage
+
+  const uuid = localStorage.getItem('complaintUUID')
+
+  if (uuid !== null) {
+    try {
+      const response = await fetch(`${BASE_URL}/api/admin/complaints/update/${uuid}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          status: "Resolved"
+        })
+      });
+
+      const res = await response.json()
+
+      // remove UUID from local storage
+      localStorage.removeItem('complaintUUID')
+      alert(res.message + '\n Please Reload the page...')
+      return window.location = './dashboard.html'
+
+    } catch (error) {
+      return console.error(error)
+    }
+  }
+  return console.log("Unable to get UUID")
+
 }
